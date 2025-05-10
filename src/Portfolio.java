@@ -8,15 +8,14 @@ import java.util.Scanner;
 public class Portfolio implements Serializable {
     private ArrayList<Asset> assets;
     private ArrayList<BankAccount> bankAccounts;
-    //private Zakat zakat;
     private double totalValue;
     private Validation validator;
+    private double Al_Nisab = 85 * 5400;
 
     public Portfolio() {
         this.assets = new ArrayList<Asset>();
         this.bankAccounts = new ArrayList<BankAccount>();
         this.totalValue = 0;
-        //this.zakat = new Zakat();
         this.validator = new ValidationImpl();
     }
 
@@ -87,6 +86,7 @@ public class Portfolio implements Serializable {
     // Asset Methods
     public void addAsset(Asset newAsset) {
         assets.add(newAsset);
+        calculateTotalValue();
     }
 
     public void removeAsset(String name) {
@@ -94,6 +94,7 @@ public class Portfolio implements Serializable {
         if (toRemove != null) {
             assets.remove(toRemove);
             System.out.println("Asset removed successfully.");
+            calculateTotalValue();
         } else {
             System.out.println("Asset not found.");
         }
@@ -158,6 +159,28 @@ public class Portfolio implements Serializable {
         }
     }
 
+    public double calculateTotalValue() {
+        this.totalValue = 0;
+        for (Asset a : assets) {
+            this.totalValue += a.getPurchasePrice() * a.getQuantity();
+        }
+        return this.totalValue;
+    }
+
+    public void PayZakat(){
+        // pay zakat
+        if(totalValue >= Al_Nisab){
+            for(Asset a : assets){
+                if(a.IsItHalal()){
+                    float new_quantity = (float)(a.getQuantity() - a.getQuantity() * 2.5);
+                    a.updateAsset(a.getName(), new_quantity, a.getPurchasePrice(), a.getAssetType(), a.IsItHalal());
+                }
+            }
+            System.out.println("Zakat is paid");
+        }
+        else {System.out.println("You don't have enough money");}
+    }
+
     // Helper Methods
     private Date convertStringToDate(String dateStr) {
         try {
@@ -175,7 +198,12 @@ public class Portfolio implements Serializable {
         sb.append("Portfolio Summary:\n");
         sb.append("Assets: ").append(assets.size()).append("\n");
         sb.append("Bank Accounts: ").append(bankAccounts.size()).append("\n");
+        calculateTotalValue();
         sb.append("Total Value: $").append(String.format("%.2f", totalValue)).append("\n");
         return sb.toString();
+    }
+
+    public double getTotalValue(){
+        return this.totalValue;
     }
 }
