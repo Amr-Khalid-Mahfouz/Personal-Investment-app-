@@ -9,7 +9,6 @@ public class Investor implements Serializable {
     private Portfolio userPortfolio;
     private String id;
     private ArrayList<BankAccount> bankAccounts;
-    // private StockMarketAccount SMA;  
 
     public Investor(InvestorBuilder builder) {
         this.name = builder.name;
@@ -18,8 +17,7 @@ public class Investor implements Serializable {
         this.password = builder.password;
         this.id = builder.id;
         this.userPortfolio = new Portfolio();
-        this.bankAccounts = new ArrayList<>();
-        
+        this.bankAccounts = new ArrayList<BankAccount>();        
     }
 
     public boolean logIn(String userName, String password) {
@@ -54,6 +52,4 @@ public class Investor implements Serializable {
     public boolean checkPasswordInData(String password) {
         return this.password.equals(password);
     }
-
- 
 }
