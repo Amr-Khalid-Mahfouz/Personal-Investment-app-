@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Investor {
+public class Investor implements Serializable {
     private String name;
     private String userName;
     private String email;
@@ -8,7 +9,7 @@ public class Investor {
     private Portfolio userPortfolio;
     private String id;
     private ArrayList<BankAccount> bankAccounts;
-    private StockMarketAccount SMA;  
+    // private StockMarketAccount SMA;  
 
     public Investor(InvestorBuilder builder) {
         this.name = builder.name;
@@ -18,7 +19,7 @@ public class Investor {
         this.id = builder.id;
         this.userPortfolio = new Portfolio();
         this.bankAccounts = new ArrayList<>();
-        // SMA should be set via a setter or additional logic
+        
     }
 
     public boolean logIn(String userName, String password) {
