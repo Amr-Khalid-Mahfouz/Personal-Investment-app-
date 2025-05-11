@@ -163,7 +163,7 @@ public class Main {
         quantity = input.nextFloat();
         input.nextLine();
         
-        System.out.print("For how much did you buy this asset?: ");
+        System.out.print("what is the price that you purchased one of this assets?: ");
         purchase_price = input.nextFloat();
         input.nextLine();
 

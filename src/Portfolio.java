@@ -154,7 +154,7 @@ public class Portfolio implements Serializable {
         float zakat_amount = 0;
         for(Asset a : assets){
             if(a.IsItHalal()){
-                zakat_amount += a.getQuantity() * a.getPurchasePrice() * 0.25;
+                zakat_amount += a.getQuantity() * a.getPurchasePrice() * 0.025;
             }
         }
         System.out.println("Your zakat due amount: " + zakat_amount + "$");
