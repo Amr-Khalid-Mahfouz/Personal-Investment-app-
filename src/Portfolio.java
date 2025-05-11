@@ -5,12 +5,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
+/**
+ * Represents a financial portfolio for an investor, including owned assets and linked bank accounts.
+ */
 public class Portfolio implements Serializable {
     private ArrayList<Asset> assets;
     private ArrayList<BankAccount> bankAccounts;
     private double totalValue;
     private ValidationImpl validator;
 
+    /**
+     * Constructs a new Portfolio with empty asset and bank account lists.
+     */
     public Portfolio() {
         this.assets = new ArrayList<Asset>();
         this.bankAccounts = new ArrayList<BankAccount>();
@@ -18,9 +24,14 @@ public class Portfolio implements Serializable {
         this.validator = new ValidationImpl();
     }
 
-    // Bank Account Methods
+    /**
+     * Adds a new bank account using user input and validation.
+     *
+     * @param scanner Scanner instance for reading user input.
+     * @return The created BankAccount object.
+     */
     public BankAccount addBankAccount(Scanner scanner) {
-        // Get card number (as String)
+        // Input and validation for bank account details...
         String cardNumber;
         while (true) {
             System.out.print("Enter card number (16 digits): ");
@@ -89,16 +100,31 @@ public class Portfolio implements Serializable {
         return newAccount;
     }
 
+    /**
+     * Returns the asset at the specified index.
+     *
+     * @param index Index of the asset in the list.
+     * @return Asset object at the specified index.
+     */
     public Asset get_asset(int index){
         return assets.get(index);
     }
 
-    // Asset Methods
+    /**
+     * Adds a new asset to the portfolio and updates the total value.
+     *
+     * @param newAsset The Asset object to add.
+     */
     public void addAsset(Asset newAsset) {
         assets.add(newAsset);
         calculateTotalValue();
     }
 
+    /**
+     * Removes an asset by name from the portfolio.
+     *
+     * @param name Name of the asset to remove.
+     */
     public void removeAsset(String name) {
         Asset toRemove = searchForAsset(name);
         if (toRemove != null) {
@@ -110,6 +136,12 @@ public class Portfolio implements Serializable {
         }
     }
 
+    /**
+     * Searches for an asset in the portfolio by name.
+     *
+     * @param name Name of the asset.
+     * @return The Asset object if found, or null otherwise.
+     */
     public Asset searchForAsset(String name) {
         for (Asset a : assets) {
             if (a.getName().equalsIgnoreCase(name)) {
@@ -119,7 +151,12 @@ public class Portfolio implements Serializable {
         return null;
     }
 
-    // index is 0-based in the function so if user enters the the index as a 1-based index subtract 1 in the function-call
+    /**
+     * Sells a percentage of the asset at the specified index.
+     *
+     * @param percentage Percentage of the asset to sell.
+     * @param index Index of the asset in the list (0-based).
+     */  
     public void sellFromAsset(double percentage, int index) {
         if (percentage > 100) {
             System.out.println("Can't sell over 100% of asset");
@@ -142,6 +179,11 @@ public class Portfolio implements Serializable {
         System.out.println("Successfully sold " + percentage + "% of " + asset.getName());
     }
 
+    /**
+     * Calculates and updates the total value of all assets.
+     *
+     * @return The total value of assets.
+     */
     public double calculateTotalValue() {
         this.totalValue = 0;
         for (Asset a : assets) {
@@ -150,6 +192,9 @@ public class Portfolio implements Serializable {
         return this.totalValue;
     }
 
+    /**
+     * Calculates and prints the zakat due for halal assets (2.5% of their value).
+     */
     public void zakat_due_amount(){
         float zakat_amount = 0;
         for(Asset a : assets){
@@ -160,6 +205,9 @@ public class Portfolio implements Serializable {
         System.out.println("Your zakat due amount: " + zakat_amount + "$");
     }
 
+    /**
+     * Prints all assets currently owned in a numbered list.
+     */
     public void view_assets_for_settings(){
         System.out.println("Currently owned Assets: ");
         int count = 1;
@@ -168,6 +216,9 @@ public class Portfolio implements Serializable {
         }
     }
 
+    /**
+     * Prints the entire portfolio: assets, bank accounts, and total value.
+     */
     public void print_portfolio(){
         System.out.println("**************************** OWNED ASSETS ****************************");
         for(Asset a : assets){
@@ -184,7 +235,12 @@ public class Portfolio implements Serializable {
         System.out.println(this.totalValue);
     }
 
-    // Helper Methods
+    /**
+     * Converts a string into a Date object.
+     *
+     * @param dateStr Date string in yyyy-MM-dd format.
+     * @return Parsed Date object, or current date if parsing fails.
+     */
     public Date convertStringToDate(String dateStr) {
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -195,6 +251,11 @@ public class Portfolio implements Serializable {
         }
     }
 
+    /**
+     * Returns a summary of the portfolio as a string.
+     *
+     * @return Summary string including number of assets, bank accounts, and total value.
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -206,6 +267,11 @@ public class Portfolio implements Serializable {
         return sb.toString();
     }
 
+    /**
+     * Gets the total value of assets.
+     *
+     * @return Total value of the portfolio.
+     */
     public double getTotalValue(){
         return this.totalValue;
     }

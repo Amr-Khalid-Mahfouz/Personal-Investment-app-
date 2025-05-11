@@ -2,7 +2,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
+/**
+ * Main class to manage user interactions with the portfolio management system.
+ * Provides functionality for logging in, signing up, and managing assets, accounts, and zakat.
+ */
 public class Main {
+    /**
+     * Prints the main menu options for the user to choose from.
+     */
     static public void print_options(){
         System.out.println("\n**************************** MAIN MENU ****************************");
         System.out.println("1) view my Portfolio"); // done  
@@ -15,6 +22,13 @@ public class Main {
         System.out.println("8) Quit"); // done
     }
 
+    /**
+     * Main method for running the portfolio management system.
+     * It facilitates user login, asset management, zakat calculations, and more.
+     *
+     * @param args Command-line arguments (not used).
+     * @throws Exception if an error occurs during file reading/writing.
+     */
     public static void main(String[] args) throws Exception{
         Scanner input  = new Scanner(System.in);
         TheBank the_bank = new TheBank();
@@ -81,6 +95,14 @@ public class Main {
         }
     }
 
+    /**
+     * Logs in an investor based on username/email and password.
+     *
+     * @param input Scanner object for user input.
+     * @param fm file_manager object for managing investors' data.
+     * @return The logged-in Investor object, or null if login fails.
+     * @throws Exception if an error occurs during file reading.
+     */
     static public Investor log_in(Scanner input, file_manager fm) throws Exception {
         fm.get_all_investors();
         String user_name, password;
@@ -101,6 +123,15 @@ public class Main {
         return null;
     }
    
+    /**
+     * Registers a new investor with provided personal details.
+     *
+     * @param input Scanner object for user input.
+     * @param fm file_manager object for managing investors' data.
+     * @param checker Validation object for input validation.
+     * @return The newly created Investor object.
+     * @throws Exception if an error occurs during file operations.
+     */
     static public Investor sign_up(Scanner input, file_manager fm, ValidationImpl checker) throws Exception {
         Investor.InvestorBuilder builder = new Investor.InvestorBuilder();
         String user_name, name, password, email;
@@ -150,6 +181,14 @@ public class Main {
         return new_investor;
     } 
 
+    /**
+     * Adds a new asset to the investor's portfolio.
+     *
+     * @param input Scanner object for user input.
+     * @param inv The investor whose portfolio will be updated.
+     * @param checker Validation object for input validation.
+     * @throws Exception if an error occurs during asset creation.
+     */
     static public void Add_asset(Scanner input, Investor inv, ValidationImpl checker) throws Exception {
         Asset.AssetBuilder builder = new Asset.AssetBuilder();
         String name, asset_type, halal;
@@ -212,6 +251,12 @@ public class Main {
         inv.userPortfolio.addAsset(new_asset);
     } 
 
+    /**
+     * Sells a percentage of the selected asset from the investor's portfolio.
+     *
+     * @param input Scanner object for user input.
+     * @param current_investor The investor selling the asset.
+     */
     static public void sell_from_asset(Scanner input, Investor current_investor) {
         int sell_choise;
         System.out.println("Choose an Asset to sell from: ");
@@ -224,6 +269,12 @@ public class Main {
         current_investor.userPortfolio.sellFromAsset(perc, sell_choise-1);
     }
     
+    /**
+     * Allows the investor to edit an asset's details in the portfolio.
+     *
+     * @param input Scanner object for user input.
+     * @param inv The investor whose asset will be edited.
+     */
     static public void edit_asset(Scanner input, Investor inv) {
         int edit_choise;
         System.out.println("Choose an Asset to edit: ");
@@ -288,6 +339,12 @@ public class Main {
         }
     }
 
+    /**
+     * Removes the specified asset from the investor's portfolio.
+     *
+     * @param input Scanner object for user input.
+     * @param inv The investor whose asset will be removed.
+     */
     static public void remove_asset(Scanner input, Investor inv){
         System.out.print("Enter Asset name to remove: ");
         String name = input.nextLine();
