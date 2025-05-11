@@ -1,8 +1,94 @@
 import java.util.Scanner;
-
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 public class Main {
-    public static void main(String[] args) {
+    
+    public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
         Scanner scanner = new Scanner(System.in);
+
+        // add investor first by using investorBuilder
+        while (true) {
+            System.out.println("===== Welcome to the Portfolio Management System =====");
+            System.out.println("1. Sign Up");
+            System.out.println("2. Log In");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+            
+            int choice = Integer.parseInt(scanner.nextLine());
+            
+            if (choice == 1) {
+                System.out.println("Adding a new investor...");
+                File file = new File("investor.txt");
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+                InvestorBuilder builder = new InvestorBuilder();
+
+                System.out.print("Enter your username: ");
+                builder.addUserName(scanner.nextLine());
+                System.out.print("Enter your email: ");
+                builder.addEmail(scanner.nextLine());
+                System.out.print("Enter your password: ");
+                builder.addPassword(scanner.nextLine());
+                System.out.print("Enter your full name: ");
+                builder.addName(scanner.nextLine());
+                Investor investor = new Investor(builder);
+                System.out.println("Investor added successfully!\n");
+                oos.writeObject(investor);
+                oos.close();
+                break;
+            }
+            if (choice == 2) 
+            {
+                System.out.println("Logging in...");
+                File file = new File("investor.txt");
+                if (!file.exists() || file.length() == 0) {
+                    System.out.println("No investors found. Please sign up first.\n");
+                    continue;
+                }
+
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                    Investor investor = (Investor) ois.readObject();
+
+                    System.out.print("Enter your username: ");
+                    String username = scanner.nextLine();
+                    if (investor.getUserName().equals(username)) {
+                        System.out.print("Enter your password: ");
+                        String password = scanner.nextLine();
+                        if (investor.checkPasswordInData(password)) {
+                            System.out.println("Login successful! Welcome, " + investor.getName() + "!");
+                            System.out.println("Password is correct.\n");
+                            break;
+                        } else {
+                            System.out.println("Incorrect password. Please try again.\n");
+                        }
+                    } else {
+                        System.out.println("Username not found. Please try again or sign up first.\n");
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                    System.out.println("Error reading investor data. Please sign up again.");
+                    e.printStackTrace(); // Optional for debugging
+                }
+
+            } 
+            else if (choice == 3) 
+            {
+                System.out.println("Exiting program...");
+                return;
+            } 
+            else 
+            {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    
+        
+
+
+        
         Portfolio portfolio = new Portfolio();
 
         System.out.println("===== Portfolio Management System =====");
@@ -65,6 +151,7 @@ public class Main {
                     System.out.println("Invalid choice. Please try again.");
             }
         }
+        
     }
 
     private static void addAssetMenu(Portfolio portfolio, Scanner scanner) {

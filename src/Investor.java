@@ -55,5 +55,21 @@ public class Investor implements Serializable {
         return this.password.equals(password);
     }
 
- 
+    // Getters and Setters
+    public String getName() {
+        return name;
+    }
+    public String getUserName() {
+        return userName;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public String getId() {
+        return id;
+    }
+    
 }

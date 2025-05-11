@@ -7,7 +7,7 @@ public class InvestorBuilder {
     String password;
     String id;
 
-    public InvestorBuilder addName(String userName) {
+    public InvestorBuilder addUserName(String userName) {
         this.userName = userName;
         return this;
     }
@@ -22,7 +22,7 @@ public class InvestorBuilder {
         return this;
     }
 
-    public InvestorBuilder addFullName(String name) {
+    public InvestorBuilder addName(String name) {
         this.name = name;
         return this;
     }
