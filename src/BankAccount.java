@@ -1,13 +1,13 @@
 import java.util.Date;
+import java.io.Serializable;
 
-public class BankAccount {
-    private String cardNumber;  // Changed from int to String
+public class BankAccount implements Serializable{
+    private String cardNumber; 
     private String cardHolderName;
     private Date expiryDate;
     private String accountOwnerId;
     private String OTP;
 
-    // Updated constructor
     public BankAccount(String cardNumber, String cardHolderName, Date expiryDate, String accountOwnerId) {
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;
@@ -15,13 +15,18 @@ public class BankAccount {
         this.accountOwnerId = accountOwnerId;
     }
 
-    // Updated getter
+    @Override
+    public String toString(){
+        return "Card Holder Name: " + cardHolderName + ", Card Number: " + cardNumber + ", Expiry Date: " + expiryDate.toString()
+        + ", Owner Id: " + accountOwnerId;
+    }
+
     public String getCardNumber() {
         return cardNumber;
     }
 
+    // checks if expiry date is in the future
     public boolean checkCard() {
-        // Example implementation: check if expiry date is in the future
         return expiryDate.after(new Date());
     }
 
@@ -37,7 +42,6 @@ public class BankAccount {
         this.expiryDate = expiryDate;
     }
 
-    // Getters for necessary fields (optional, depending on usage)
     public String getAccountOwnerId() {
         return accountOwnerId;
     }

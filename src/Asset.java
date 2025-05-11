@@ -71,8 +71,8 @@ class Asset implements Serializable{
             this.PurchasePrice = pPrice;
             return this;
         }
-        public AssetBuilder SetPurchaseDate(){
-            this.PurchaseDate = new Date();
+        public AssetBuilder SetPurchaseDate(Date the_date){
+            this.PurchaseDate = the_date;
             return this;
         }
         public AssetBuilder SetAssetState(){

@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.regex.Pattern;
 
-public class ValidationImpl implements Validation {
+public class ValidationImpl implements Validation, Serializable {
 
     @Override
     public boolean checkEmail(String email) {

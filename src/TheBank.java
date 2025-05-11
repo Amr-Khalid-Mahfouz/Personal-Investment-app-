@@ -1,13 +1,14 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-public class TheBank {
-    private List<BankAccount> bankAccounts;
+public class TheBank implements Serializable{
+    public List<BankAccount> bankAccounts;
 
     public TheBank() {
-        bankAccounts = new ArrayList<>();
+        bankAccounts = new ArrayList<BankAccount>();
     }
 
     public BankAccount searchForUser(String accountOwnerId) {
@@ -30,11 +31,9 @@ public class TheBank {
         }
     }
 
-    public void generateOTP(String accountOwnerId) {
-        BankAccount account = searchForUser(accountOwnerId);
-        if (account != null) {
+    static public String generateOTP() {
             String otp = String.valueOf(100000 + new Random().nextInt(900000));
-            account.setOTP(otp);
-        }
+            // b.setOTP(otp);
+            return otp;
     }
 }

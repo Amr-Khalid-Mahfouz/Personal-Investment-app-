@@ -5,4 +5,3 @@ public interface Validation {
     boolean checkIfNumeric(String input);
     boolean checkDate(String date); // Format: yyyy-MM-dd
 }
-
